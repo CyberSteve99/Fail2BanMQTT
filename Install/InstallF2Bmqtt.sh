@@ -10,7 +10,7 @@
 
 # Get the github archive
 
-wget https://github.com/CyberSteve99/Fail2BanMQTT/archive/refs/heads/main.zip -O Fail2BanMQTT.zip
+wget -q https://github.com/CyberSteve99/Fail2BanMQTT/archive/refs/heads/main.zip -O Fail2BanMQTT.zip
 unzip Fail2BanMQTT.zip
 
 mv Fail2BanMQTT-main/etc/fail2ban/mqtt.env              /etc/fail2ban/
@@ -31,3 +31,4 @@ systemctl enable f2bmqttsub.service
 systemctl restart f2bmqttsub.service
 
 rm -r Fail2BanMQTT-main
+rm Fail2BanMQTT.zip
