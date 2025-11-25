@@ -9,10 +9,11 @@
 #           /etc/fail2ban/action.d/iptables-ipset.local
 
 # Get the github archive
-
+echo "🚀    Getting GitHub Archive."
 wget -q https://github.com/CyberSteve99/Fail2BanMQTT/archive/refs/heads/main.zip -O Fail2BanMQTT.zip
+echo "🚀    Inzipping GitHub Archive."
 unzip Fail2BanMQTT.zip
-
+echo "🚀    Moving Files."
 mv Fail2BanMQTT-main/etc/fail2ban/mqtt.env              /etc/fail2ban/
 mv Fail2BanMQTT-main/etc/fail2ban/mqttsubscribebans     /etc/fail2ban/
 mv Fail2BanMQTT-main/etc/fail2ban/mqttnotifyban         /etc/fail2ban/
@@ -25,10 +26,12 @@ mv Fail2BanMQTT-main/etc/fail2ban/action.d/abuseipdb.local          /etc/fail2ba
 chmod +x /etc/fail2ban/mqttsubscribebans
 chmod +x /etc/fail2ban/mqttnotifyban
 
+echo "🚀    Creating and staring f2bmqttsub Service."
 mv /etc/fail2ban/f2bmqttsub.service /etc/systemd/system/f2bmqttsub.service
 systemctl daemon-reload
 systemctl enable f2bmqttsub.service
 systemctl restart f2bmqttsub.service
-
+echo "🚀    Tidying Upe."
 rm -r Fail2BanMQTT-main
 rm Fail2BanMQTT.zip
+echo "✅    Complete."
