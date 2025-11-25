@@ -11,7 +11,7 @@ Dependency - mosquitto-client and wget. Naturally you will also require an MQTT 
 apt install mosquitto-clients wget
 ```
 
-Requires a call to mosquitto_pub -h <mqtt-host> -u <user> -P <password> -t <topic>/# -m <JSON Ban/Unban details> in the ban actions and unban actions
+Requires a call to `mosquitto_pub -h <mqtt-host> -u <user> -P <password> -t <topic>/# -m <JSON Ban/Unban details>` in the ban actions and unban actions
 In our case this is defined in /etc/fail2ban/action.d/iptables-ipset.local (see below).
 
 Also requires a routine that is listening/subscribed with mosquitto_sub on all hosts that participate is the sharing..
