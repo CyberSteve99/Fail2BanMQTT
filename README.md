@@ -5,7 +5,7 @@ Share Fail2Ban bans/unbans across Servers using MQTT
 
 When any Fail2Ban server bans or unbans an IP then use MQTT to notify all others (that are subscribed to the topic) of the ban so they can add it to their bans. Note that if the receiving server doesn't have the same jail then the ban is ignored.
 
-Dependency - mosquitto-client and wget.
+Dependency - mosquitto-client and wget. Naturally you will also require an MQTT Service.
 
 ```
 apt install mosquitto-clients wget
