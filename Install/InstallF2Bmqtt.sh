@@ -26,7 +26,7 @@ mv Fail2BanMQTT-main/etc/fail2ban/action.d/abuseipdb.local          /etc/fail2ba
 chmod +x /etc/fail2ban/mqttsubscribebans
 chmod +x /etc/fail2ban/mqttnotifyban
 
-echo "🚀    Creating and staring f2bmqttsub Service."
+echo "🚀    Creating and starting f2bmqttsub Service."
 mv /etc/fail2ban/f2bmqttsub.service /etc/systemd/system/f2bmqttsub.service
 systemctl daemon-reload
 systemctl enable f2bmqttsub.service
