@@ -13,7 +13,7 @@
 wget https://github.com/CyberSteve99/Fail2BanMQTT/archive/refs/heads/main.zip -O Fail2BanMQTT.zip
 unzip Fail2BanMQTT.zip
 
-mv Fail2BanMQTT-main/mqtt.env                           /etc/fail2ban/
+mv Fail2BanMQTT-main/etc/fail2ban/mqtt.env              /etc/fail2ban/
 mv Fail2BanMQTT-main/etc/fail2ban/mqttsubscribebans     /etc/fail2ban/
 mv Fail2BanMQTT-main/etc/fail2ban/mqttnotifyban         /etc/fail2ban/
 mv Fail2BanMQTT-main/etc/fail2ban/f2bmqttsub.service    /etc/fail2ban/
