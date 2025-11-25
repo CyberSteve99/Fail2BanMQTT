@@ -47,9 +47,10 @@ I have moved the apikey to separate config file (/etc/fail2ban/abuseipdb.apikey)
 
 **Installation**
 
-Copy this repository and run the install script.
+Use the following one liner to install.
 
-Git clone https://github.com/cybersteve
+wget -q -O- https://raw.githubusercontent.com/CyberSteve99/Fail2BanMQTT/refs/heads/main/Install/InstallF2Bmqtt.sh |bash
+
 
 **TODO**
 Tidy up jails and action.d files to remove passing apikey as a parameter and then modify scripts accordingly. Not a high priority as it works without these changes.
