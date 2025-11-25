@@ -1,0 +1,24 @@
+#!/bin/bash
+# P1 = ipmset, P2 = ip, P3 = bantime, P4 = ban/unban, P5 = <restored>
+#     P6 = failures (number of times the failure occurred in the log file)
+#       which I expect will be non zero on the server that issues the initial ban.
+# Process all unbans and only bans not restored.
+#echo "mqttnotifyban: $1 $2 $4 $5" >>/tmp/mqttnotifyban
+# if failures is zero then we are here because we have actioned a ban from another 
+# server so don't need to propogate it any further.
+if [[ "$6" -ne 0 ]]; then
+  if [[ "$4" == "unban" ]] || [[ "$5" -eq 0 ]]; then
+    MyHostName=$(hostname)
+    Json='{
+      "action": "'$4'",
+      "ipmset": "'$1'",
+      "ip": "'$2'",
+      "bantime": '$3',
+      "host": "'$MyHostName'",
+      "restored": '$5',
+      "failures": '$6'
+    }'
+    . /etc/fail2ban/mqtt.env
+    /usr/bin/mosquitto_pub -h $MQTT_HOST -u $MQTT_USER -P $MQTT_PASSWORD -t $MQTT_TOPIC/$4 -m "$Json"
+  fi
+fi

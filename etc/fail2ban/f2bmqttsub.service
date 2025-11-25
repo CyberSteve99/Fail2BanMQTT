@@ -1,0 +1,9 @@
+[Unit]
+Description=Script to listen for Fail2Ban bans/unbans via MQTT
+After=network.target
+
+[Service]
+ExecStart=/etc/fail2ban/mqttsubscribebans
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target

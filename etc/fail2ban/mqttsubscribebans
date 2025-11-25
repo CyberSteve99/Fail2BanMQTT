@@ -1,0 +1,45 @@
+#!/bin/bash
+MyHostName=$(hostname)
+# Subscribe to a topic and pipe the output to a while loop
+. /etc/fail2ban/mqtt.env
+SQLITE_DB=/var/lib/fail2ban/fail2ban.sqlite3
+
+mosquitto_sub -h $MQTT_HOST -u $MQTT_USER -P $MQTT_PASSWORD -t "$MQTT_TOPIC/#" -F %J | while read RAW_DATA
+do
+    action=$(jq .payload.action <<<$RAW_DATA | tr -d "'\"")
+    ipmset=$(jq .payload.ipmset <<<$RAW_DATA | tr -d "'\"")
+    bantime=$(jq .payload.bantime <<<$RAW_DATA )
+    restored=$(jq .payload.restored <<<$RAW_DATA )
+    ip=$(jq .payload.ip <<<$RAW_DATA | tr -d "'\"")
+    HostNameIn=$(jq .payload.host <<<$RAW_DATA | tr -d "'\"")
+    failures=$(jq .payload.failures <<<$RAW_DATA )
+    echo "Inbound: $action $ip - ipset $ipmset from $HostNameIn (Rest:=$restored, Fails:=$failures)"
+    # Ignore any restored bans if they come in. The notify script should ignore them anyway.
+    # unbans should still proceed.
+    if [[ "$action" == "unban" ]] || [[ "$restored" -eq 0 ]]; then
+        # Check if we have the jail specified on this system. Use fail2ban-client status to check.
+        Valid_Jail=$(fail2ban-client status |grep $ipmset)
+        if [[ $Valid_Jail ]]; then
+            if [[ $HostNameIn != $MyHostName ]]; then
+                if [[ $action == "ban" ]]; then
+                # Check if already banned.
+                result=$(sqlite3 "${SQLITE_DB}" "SELECT EXISTS(SELECT b.* FROM bips AS b WHERE ip = '$ip' AND jail = '$ipmset')")
+                if [[ "${result}" -eq 0 ]]; then # Not already banned, so ban it.
+                    echo "Ban $ip for ipset $ipmset reported by $HostNameIn"
+                    result=$(fail2ban-client set $ipmset banip $ip)
+                fi
+            elif [[ $action == "unban" ]]; then
+                result=$(sqlite3 "${SQLITE_DB}" "SELECT EXISTS(SELECT b.* FROM bips AS b WHERE ip = '$ip' AND jail = '$ipmset')")
+                if [[ "${result}" -ne 0 ]]; then # Only unban known bans.
+                    echo "UnBan $ip for ipset $ipmset reported by $HostNameIn"
+                    result=$(fail2ban-client set $ipmset unbanip $ip) 
+                fi
+            else
+                echo "Unrecognised action $action"
+            fi
+        fi
+    else
+        echo "Jail $ipmset not found for IP $ip reported by $HostNameIn (Restored=$restored)"
+        fi
+    fi
+done

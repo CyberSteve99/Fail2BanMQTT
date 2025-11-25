@@ -1,0 +1,11 @@
+[Definition]
+# Don't use norestored=1 here otherwise the ipset don't get populated with 
+# existing bans on restarts and IPs reported as already banned as they
+# no longer appear in the ipsets.
+#norestored = 1
+
+#actionban = ipset -exist add <ipmset> "<ip>" timeout <ipsettime>; conntrack -D -s "<ip>"||:
+actionban = ipset -exist add <ipmset> "<ip>" timeout <ipsettime>; /etc/fail2ban/mqttnotifyban <name> "<ip>" <ipsettime> ban <restored> <failures> ;conntrack -D -s "<ip>"||:
+
+actionunban = ipset -exist del <ipmset> <ip>; /etc/fail2ban/mqttnotifyban <name> "<ip>" 0 unban <restored> <failures>
+
