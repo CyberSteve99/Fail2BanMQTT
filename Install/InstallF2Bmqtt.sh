@@ -11,7 +11,7 @@
 # Get the github archive
 echo "🚀    Getting GitHub Archive."
 wget -q https://github.com/CyberSteve99/Fail2BanMQTT/archive/refs/heads/main.zip -O Fail2BanMQTT.zip
-echo "🚀    Inzipping GitHub Archive."
+echo "🚀    Unzipping GitHub Archive."
 unzip -qq Fail2BanMQTT.zip
 echo "🚀    Moving Files."
 mv Fail2BanMQTT-main/etc/fail2ban/mqtt.env              /etc/fail2ban/
