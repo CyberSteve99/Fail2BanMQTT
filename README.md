@@ -5,9 +5,11 @@ Share Fail2Ban bans/unbans across Servers using MQTT
 
 When any Fail2Ban server bans or unbans an IP then use MQTT to notify all others (that are subscribed to the topic) of the ban so they can add it to their bans. Note that if the receiving server doesn't have the same jail then the ban is ignored.
 
-Dependency - mosquitto-client.
+Dependency - mosquitto-client and wget.
 
-apt install mosquitto-clients
+```
+apt install mosquitto-clients wget
+```
 
 Requires a call to mosquitto_pub -h <mqtt-host> -u <user> -P <password> -t <topic>/# -m <JSON Ban/Unban details> in the ban actions and unban actions
 In our case this is defined in /etc/fail2ban/action.d/iptables-ipset.local (see below).
@@ -23,10 +25,12 @@ Script to publish bans is at /etc/fail2ban/mqttnotifyban.sh
 
 The file /etc/fail2ban/mqtt.env contains the following:- 
 
+```
 MQTT_USER=fail2ban
 MQTT_PASSWORD=fail2ban
 MQTT_HOST=192.168.1.10
 MQTT_TOPIC=blacklist
+```
 
 These are generally common across all systems but in theory user/password could be different on each server. Host & Topic would be common.
 
@@ -49,9 +53,9 @@ I have moved the apikey to separate config file (/etc/fail2ban/abuseipdb.apikey)
 
 Use the following one liner to install.
 
-wget -q -O- https://raw.githubusercontent.com/CyberSteve99/Fail2BanMQTT/refs/heads/main/Install/InstallF2Bmqtt.sh |bash
-
+```
+wget -q -O- https://raw.githubusercontent.com/CyberSteve99/Fail2BanMQTT/refs/heads/main/Install/InstallF2Bmqtt.sh |bash`
+```
 
 **TODO**
 Tidy up jails and action.d files to remove passing apikey as a parameter and then modify scripts accordingly. Not a high priority as it works without these changes.
-<img width="2020" height="2156" alt="image" src="https://github.com/user-attachments/assets/6351ba1f-54e7-4886-9ec1-c522ad4c2300" />
