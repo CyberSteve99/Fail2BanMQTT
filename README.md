@@ -47,7 +47,7 @@ If using AbuseIPDB reporting scripts then modification to action.d files to incl
 
 Included is the file /etc/fail2ban/action.d/fail2ban-abuseipdb.sh and /etc/fail2ban/action.d/abuseipdb.local to replace those documented in https://github.com/fail2ban/fail2ban/issues/3428
 
-I have moved the apikey to separate config file (/etc/fail2ban/abuseipdb.apikey) which overrides any defined in jail or action.d files. 
+I have moved the apikey to a separate config file (/etc/fail2ban/abuseipdb.apikey) which overrides any defined in jail or action.d files. You will have to create your own file if you use this. 
 
 **Installation**
 
@@ -56,6 +56,7 @@ Use the following one liner to install.
 ```
 wget -q -O- https://raw.githubusercontent.com/CyberSteve99/Fail2BanMQTT/refs/heads/main/Install/InstallF2Bmqtt.sh |bash`
 ```
+
 
 **TODO**
 Tidy up jails and action.d files to remove passing apikey as a parameter and then modify scripts accordingly. Not a high priority as it works without these changes.
