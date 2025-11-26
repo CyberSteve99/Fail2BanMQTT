@@ -16,7 +16,7 @@ In our case this is defined in /etc/fail2ban/action.d/iptables-ipset.local (see 
 
 Also requires a routine that is listening/subscribed with mosquitto_sub on all hosts that participate is the sharing..
 
-Logic needs to know if it was the sending node so that it doesn't re-add it to it's own bans. Info needed is the reporting host, ban_name, ip address, ban time, faulures. 
+Logic needs to know if it was the sending node so that it doesn't re-add it to it's own bans. Info needed is the reporting host, ban_name, ip address, ban time, failures. 
 
 Script to subscribe and process messages is at /usr/local/bin/mqttsubscribebans
 Script to publish messages is at /etc/fail2ban/mqttnotifyban.sh
